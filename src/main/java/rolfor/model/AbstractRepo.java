@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @SuppressWarnings("WeakerAccess")
-public abstract class AbstractRepo<T extends Entity> implements Repo<T> {
+public abstract class AbstractRepo<T extends Entity, R extends T> implements Repo<T> {
 	protected final EntityManager   em = HibernateUtil.getSessionFactory().createEntityManager();
 	protected final CriteriaBuilder cb = em.getCriteriaBuilder();
 	
@@ -45,7 +45,7 @@ public abstract class AbstractRepo<T extends Entity> implements Repo<T> {
 	public T save(T item) {
 		EntityTransaction transaction = em.getTransaction();
 		transaction.begin();
-		T entity = find(item.getId());
+		R entity = em.find(getEntityClass(), item.getId());
 		copy(item, entity);
 		em.persist(entity);
 		em.flush();
@@ -54,17 +54,24 @@ public abstract class AbstractRepo<T extends Entity> implements Repo<T> {
 	}
 	
 	@Override
-	public List<T> findAll() {
-		CriteriaQuery<T> cq        = cb.createQuery(getEntityClass());
-		Root<T>          rootEntry = cq.from(getEntityClass());
-		CriteriaQuery<T> all       = cq.select(rootEntry).orderBy(cb.asc(rootEntry.get("id")));
-		TypedQuery<T>    allQuery  = em.createQuery(all);
+	public List<? extends T> findAll() {
+		CriteriaQuery<R> cq        = cb.createQuery(getEntityClass());
+		Root<R>          rootEntry = cq.from(getEntityClass());
+		CriteriaQuery<R> all       = cq.select(rootEntry).orderBy(cb.asc(rootEntry.get("id")));
+		TypedQuery<R>    allQuery  = em.createQuery(all);
 		return allQuery.getResultList();
 	}
 	
 	@Override
-	public List<T> findFromPage(CriteriaQuery<T> query, int pageNumber, int pageSize) {
-		TypedQuery<T> typedQuery = em.createQuery(query);
+	public CriteriaQuery<R> getSelectQuery() {
+		CriteriaQuery<R> cq        = cb.createQuery(getEntityClass());
+		Root<R>          rootEntry = cq.from(getEntityClass());
+		return cq.select(rootEntry);
+	}
+	
+	@Override
+	public List<? extends T> findFromPage(CriteriaQuery<? extends T> query, int pageNumber, int pageSize) {
+		TypedQuery<? extends T> typedQuery = em.createQuery(query);
 		typedQuery.setFirstResult((pageNumber - 1) * pageSize);
 		typedQuery.setMaxResults(pageSize);
 		return typedQuery.getResultList();
@@ -76,16 +83,16 @@ public abstract class AbstractRepo<T extends Entity> implements Repo<T> {
 	}
 	
 	@Override
-	public <R> TypedQuery<R> getQuery(CriteriaQuery<R> query) {
+	public <E> TypedQuery<E> getQuery(CriteriaQuery<E> query) {
 		return em.createQuery(query);
 	}
 	
 	@Override
-	public <R extends Entity> Long getPagesCount(CriteriaQuery<R> query, int pageSize) {
+	public <E extends Entity> Long getPagesCount(CriteriaQuery<E> query, int pageSize) {
 		em.createQuery(query); // I hate this shit
 		
 		final CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
-		final Root<R>             countRoot  = countQuery.from(query.getResultType());
+		final Root<E>             countRoot  = countQuery.from(query.getResultType());
 		
 		countQuery.select(cb.count(countRoot));
 		countQuery.where(query.getRestriction());
@@ -96,5 +103,8 @@ public abstract class AbstractRepo<T extends Entity> implements Repo<T> {
 		return rowsCount / pageSize + (rowsCount % pageSize > 0 ? 1 : 0);
 	}
 	
-	protected abstract T copy(T from, T dest);
+	@Override
+	public abstract Class<R> getEntityClass();
+	
+	protected abstract R copy(T from, R to);
 }

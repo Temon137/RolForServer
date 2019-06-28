@@ -1,6 +1,8 @@
 package rolfor.rest.containers;
 
 
+import rolfor.model.Repo;
+import rolfor.model.container.Container;
 import rolfor.model.container.ContainerImpl;
 import rolfor.model.container.ContainerRepo;
 import rolfor.rest.containers.fetchers.ChildContainersFetcher;
@@ -13,7 +15,7 @@ import java.util.List;
 
 @Path(value = "/containers")
 public class ContainersREST {
-	private final ContainerRepo containerRepo;
+	private final Repo<Container> containerRepo;
 	
 	public ContainersREST() {
 		containerRepo = new ContainerRepo();
@@ -22,7 +24,7 @@ public class ContainersREST {
 	@GET
 	@Path(value = "/{id}")
 	@Produces("application/json")
-	public ContainerImpl getContainer(@PathParam(value = "id") Integer id) {
+	public Container getContainer(@PathParam(value = "id") Integer id) {
 		return containerRepo.find(id);
 	}
 	
@@ -37,30 +39,29 @@ public class ContainersREST {
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
-	public ContainerImpl updateContainer(ContainerImpl container) {
+	public Container updateContainer(ContainerImpl container) {
 		return containerRepo.save(container);
 	}
 	
 	@PUT
 	@Consumes("application/json")
 	@Produces("application/json")
-	public ContainerImpl createContainer(ContainerImpl container) {
+	public Container createContainer(ContainerImpl container) {
 		return containerRepo.add(container);
 	}
 	
 	@GET
 	@Path(value = "/{parentId}/children/")
 	@Produces("application/json")
-	public List<ContainerImpl> getChildrenContainers(@PathParam(value = "parentId") Integer parentId) {
+	public List<? extends Container> getChildrenContainers(@PathParam(value = "parentId") Integer parentId) {
 		return getChildrenContainersPage(parentId, 1);
 	}
 	
 	@GET
 	@Path(value = "/{parentId}/children/page{pageNumber}")
 	@Produces("application/json")
-	public List<ContainerImpl> getChildrenContainersPage(@PathParam(value = "parentId") Integer parentId,
-	                                                     @PathParam(value = "pageNumber")
-			                                                     Integer pageNumber) {
+	public List<? extends Container> getChildrenContainersPage(@PathParam(value = "parentId") Integer parentId,
+	                                                           @PathParam(value = "pageNumber") Integer pageNumber) {
 		return containerRepo.findFromPage(new ChildContainersFetcher(containerRepo, parentId).getCriteriaQuery(),
 		                                  pageNumber,
 		                                  5);
@@ -73,7 +74,7 @@ public class ContainersREST {
 		ChildContainersFetcher fetcher = new ChildContainersFetcher(containerRepo, parentId);
 		return containerRepo.getPagesCount(fetcher.getCriteriaQuery(), 5);
 	}
-
+	
 	@GET
 	@Path(value = "/{parentId}/test2")
 	@Produces("application/json")
@@ -84,7 +85,7 @@ public class ContainersREST {
 	
 	@GET
 	@Produces("application/json")
-	public List<ContainerImpl> getAllContainers() {
+	public List<? extends Container> getAllContainers() {
 		return containerRepo.findAll();
 	}
 }

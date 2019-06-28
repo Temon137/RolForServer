@@ -5,7 +5,6 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 
 
-@SuppressWarnings("WeakerAccess")
 public abstract class AbstractFetcher<T, E extends Entity> implements Fetcher<T> {
 	protected final Repo<E>         repo;
 	protected final CriteriaBuilder cb;
@@ -16,7 +15,7 @@ public abstract class AbstractFetcher<T, E extends Entity> implements Fetcher<T>
 	}
 	
 	@Override
-	public TypedQuery<T> getTypedQuery() {
+	public TypedQuery<? extends T> getTypedQuery() {
 		return repo.getQuery(getCriteriaQuery());
 	}
 }

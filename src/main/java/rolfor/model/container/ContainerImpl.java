@@ -1,14 +1,15 @@
 package rolfor.model.container;
 
 
+import rolfor.model.AbstractEntity;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 
 @Entity
 @Table(name = "containers")
-public class ContainerImpl implements Container {
-	private Integer id;
+public class ContainerImpl extends AbstractEntity implements Container {
 	private Integer parentId;
 	private String  title;
 	private Integer authorId;
@@ -62,7 +63,7 @@ public class ContainerImpl implements Container {
 	}
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	public Integer getId() {
 		return id;

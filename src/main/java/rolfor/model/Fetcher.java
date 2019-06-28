@@ -6,7 +6,7 @@ import javax.persistence.criteria.CriteriaQuery;
 
 
 public interface Fetcher<T> {
-	CriteriaQuery<T> getCriteriaQuery();
+	CriteriaQuery<? extends T> getCriteriaQuery();
 	
-	TypedQuery<T> getTypedQuery();
+	TypedQuery<? extends T> getTypedQuery();
 }

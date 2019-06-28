@@ -16,17 +16,19 @@ public interface Repo<T extends Entity> {
 	
 	T save(T item);
 	
-	List<T> findAll();
+	List<? extends T> findAll();
 	
 	<R> TypedQuery<R> getQuery(CriteriaQuery<R> query);
 	
 	
 	<R extends Entity> Long getPagesCount(CriteriaQuery<R> query, int pageSize);
 	
-	List<T> findFromPage(CriteriaQuery<T> query, int pageNumber, int pageSize);
+	CriteriaQuery<? extends T> getSelectQuery();
 	
+	List<? extends T> findFromPage(CriteriaQuery<? extends T> query, int pageNumber, int pageSize);
+	
+	
+	Class<? extends T> getEntityClass();
 	
 	CriteriaBuilder getCriteriaBuilder();
-	
-	Class<T> getEntityClass();
 }
