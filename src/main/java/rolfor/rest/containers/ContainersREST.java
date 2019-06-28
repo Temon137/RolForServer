@@ -1,10 +1,10 @@
 package rolfor.rest.containers;
 
 
-import rolfor.model.Repo;
 import rolfor.model.container.Container;
 import rolfor.model.container.ContainerImpl;
 import rolfor.model.container.ContainerRepo;
+import rolfor.model.container.ContainerRepoImpl;
 import rolfor.rest.containers.fetchers.ChildContainersFetcher;
 import rolfor.rest.containers.fetchers.MessagesFromContainerFetcher;
 
@@ -15,10 +15,10 @@ import java.util.List;
 
 @Path(value = "/containers")
 public class ContainersREST {
-	private final Repo<Container> containerRepo;
+	private final ContainerRepo containerRepo;
 	
 	public ContainersREST() {
-		containerRepo = new ContainerRepo();
+		containerRepo = new ContainerRepoImpl();
 	}
 	
 	@GET

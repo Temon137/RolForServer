@@ -6,9 +6,9 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import rolfor.model.container.ContainerImpl;
-import rolfor.model.message.Message;
-import rolfor.model.news.News;
-import rolfor.model.user.User;
+import rolfor.model.message.MessageImpl;
+import rolfor.model.news.NewsImpl;
+import rolfor.model.user.UserImpl;
 
 
 public final class HibernateUtil {
@@ -33,9 +33,9 @@ public final class HibernateUtil {
 			configuration.setProperty("hibernate.current_session_context_class", "thread");
 			
 			configuration.addAnnotatedClass(ContainerImpl.class);
-			configuration.addAnnotatedClass(Message.class);
-			configuration.addAnnotatedClass(News.class);
-			configuration.addAnnotatedClass(User.class);
+			configuration.addAnnotatedClass(MessageImpl.class);
+			configuration.addAnnotatedClass(NewsImpl.class);
+			configuration.addAnnotatedClass(UserImpl.class);
 			
 			ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 					.applySettings(configuration.getProperties()).build();
