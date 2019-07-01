@@ -63,6 +63,12 @@ public abstract class AbstractRepo<T extends Entity, R extends T> implements Rep
 	}
 	
 	@Override
+	public <E> TypedQuery<E> getQuery(CriteriaQuery<E> query) {
+		return em.createQuery(query);
+	}
+	
+	
+	@Override
 	public CriteriaQuery<R> getSelectQuery() {
 		CriteriaQuery<R> cq        = cb.createQuery(getEntityClass());
 		Root<R>          rootEntry = cq.from(getEntityClass());
@@ -78,21 +84,11 @@ public abstract class AbstractRepo<T extends Entity, R extends T> implements Rep
 	}
 	
 	@Override
-	public CriteriaBuilder getCriteriaBuilder() {
-		return cb;
-	}
-	
-	@Override
-	public <E> TypedQuery<E> getQuery(CriteriaQuery<E> query) {
-		return em.createQuery(query);
-	}
-	
-	@Override
 	public Long getPagesCount(CriteriaQuery<? extends T> query, int pageSize) {
 		em.createQuery(query); // I hate this shit
 		
-		final CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
-		final Root<? extends Entity>             countRoot  = countQuery.from(query.getResultType());
+		final CriteriaQuery<Long>    countQuery = cb.createQuery(Long.class);
+		final Root<? extends Entity> countRoot  = countQuery.from(query.getResultType());
 		
 		countQuery.select(cb.count(countRoot));
 		countQuery.where(query.getRestriction());
@@ -103,8 +99,14 @@ public abstract class AbstractRepo<T extends Entity, R extends T> implements Rep
 		return rowsCount / pageSize + (rowsCount % pageSize > 0 ? 1 : 0);
 	}
 	
+	
 	@Override
 	public abstract Class<R> getEntityClass();
+	
+	@Override
+	public CriteriaBuilder getCriteriaBuilder() {
+		return cb;
+	}
 	
 	protected abstract R copy(T from, R to);
 }
