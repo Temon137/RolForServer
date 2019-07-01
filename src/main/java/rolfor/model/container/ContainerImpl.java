@@ -40,31 +40,26 @@ public class ContainerImpl extends AbstractEntity implements Container {
 		return id;
 	}
 	
-	@Basic
 	@Column(name = "title")
 	public String getTitle() {
 		return title;
 	}
 	
-	@Basic
 	@Column(name = "image_name")
 	public String getImageName() {
 		return imageName;
 	}
 	
-	@Basic
 	@Column(name = "description")
 	public String getDescription() {
 		return description;
 	}
 	
-	@Basic
 	@Column(name = "parent_id")
 	public Integer getParentId() {
 		return parentId;
 	}
 	
-	@Basic
 	@Column(name = "author_id")
 	public Integer getAuthorId() {
 		return authorId;

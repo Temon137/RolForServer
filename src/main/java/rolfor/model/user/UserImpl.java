@@ -23,43 +23,31 @@ public class UserImpl implements User {
 		return id;
 	}
 	
-	@Override
-	@Basic
 	@Column(name = "description")
 	public String getDescription() {
 		return description;
 	}
 	
-	@Override
-	@Basic
 	@Column(name = "avatar_image_name")
 	public String getAvatarImageName() {
 		return avatarImageName;
 	}
 	
-	@Override
-	@Basic
 	@Column(name = "role")
 	public Integer getRole() {
 		return role;
 	}
 	
-	@Override
-	@Basic
 	@Column(name = "password")
 	public String getPassword() {
 		return password;
 	}
 	
-	@Override
-	@Basic
 	@Column(name = "login")
 	public String getLogin() {
 		return login;
 	}
 	
-	@Override
-	@Basic
 	@Column(name = "name")
 	public String getName() {
 		return name;

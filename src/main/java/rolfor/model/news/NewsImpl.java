@@ -22,29 +22,21 @@ public class NewsImpl implements News {
 		return id;
 	}
 	
-	@Override
-	@Basic
 	@Column(name = "title")
 	public String getTitle() {
 		return title;
 	}
 	
-	@Override
-	@Basic
 	@Column(name = "date")
 	public Timestamp getDate() {
 		return date;
 	}
 	
-	@Override
-	@Basic
 	@Column(name = "author_id")
 	public Integer getAuthorId() {
 		return authorId;
 	}
 	
-	@Override
-	@Basic
 	@Column(name = "text")
 	public String getText() {
 		return text;
