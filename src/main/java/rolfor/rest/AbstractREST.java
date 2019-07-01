@@ -34,15 +34,15 @@ public class AbstractREST<E extends Entity, R extends Repo<E>> {
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
-	public E update(E container) {
-		return repo.save(container);
+	public E update(E entity) {
+		return repo.save(entity);
 	}
 	
 	@PUT
 	@Consumes("application/json")
 	@Produces("application/json")
-	public E create(E container) {
-		return repo.add(container);
+	public E create(E entity) {
+		return repo.add(entity);
 	}
 	
 	@GET
