@@ -6,12 +6,12 @@ import rolfor.model.container.ContainerRepo;
 import rolfor.rest.AbstractREST;
 import rolfor.rest.PaginationParams;
 import rolfor.rest.containers.fetchers.ChildContainersFetcher;
-import rolfor.rest.containers.fetchers.MessagesFromContainerFetcher;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
-import java.util.List;
+import javax.ws.rs.core.Response;
+import java.util.Map;
 
 
 @Path(value = "/containers")
@@ -26,37 +26,33 @@ public class ContainersREST extends AbstractREST<Container, ContainerRepo> {
 		super(containerRepo);
 	}
 	
+	
 	@GET
-	@Path(value = "/{parentId}/children/")
+	@Path(value = "/{id}/children/")
 	@Produces("application/json")
-	public List<? extends Container> getChildrenContainers(@PathParam(value = "parentId") Integer parentId) {
-		return getChildrenContainersPage(parentId, new PaginationParams());
+	public Response getChildren(@PathParam(value = "id") Integer id) {
+		var list = repo.getQuery(new ChildContainersFetcher(repo, id).getCriteriaQuery()).getResultList();
+		return Response.ok(list).build();
 	}
 	
 	@GET
-	@Path(value = "/{parentId}/children/")
+	@Path(value = "/{id}/children/paged")
 	@Produces("application/json")
-	public List<? extends Container> getChildrenContainersPage(@PathParam(value = "parentId") Integer parentId,
-	                                                           @Valid @BeanParam PaginationParams pageParams) {
-		return repo.getPagedQuery(new ChildContainersFetcher(repo, parentId).getCriteriaQuery(),
-		                          pageParams.getPageNumber(),
-		                          pageParams.getPageSize()).getResultList();
+	public Response getChildrenPaged(@PathParam(value = "id") Integer id,
+	                                 @Valid @BeanParam PaginationParams pageParams) {
+		var list = repo.getPagedQuery(new ChildContainersFetcher(repo, id).getCriteriaQuery(),
+		                              pageParams.getPageNumber(),
+		                              pageParams.getPageSize()).getResultList();
+		return Response.ok(list).build();
 	}
 	
 	@GET
-	@Path(value = "/{parentId}/children/pages")
+	@Path(value = "/{id}/children/paged/count")
 	@Produces("application/json")
-	public Long getChildrenContainersPagesCount(@PathParam(value = "parentId") Integer parentId,
-	                                            @Valid @BeanParam PaginationParams pageParams) {
-		ChildContainersFetcher fetcher = new ChildContainersFetcher(repo, parentId);
-		return repo.getPagesCount(fetcher.getCriteriaQuery(), pageParams.getPageSize());
-	}
-	
-	@GET
-	@Path(value = "/{parentId}/test2")
-	@Produces("application/json")
-	public Integer test(@PathParam(value = "parentId") Integer parentId) {
-		MessagesFromContainerFetcher fetcher = new MessagesFromContainerFetcher(repo, parentId);
-		return repo.getQuery(fetcher.getCriteriaQuery()).getSingleResult();
+	public Response getChildrenPagesCount(@PathParam(value = "id") Integer id,
+	                                      @Valid @BeanParam PaginationParams pageParams) {
+		var  fetcher    = new ChildContainersFetcher(repo, id);
+		Long pagesCount = repo.getPagesCount(fetcher.getCriteriaQuery(), pageParams.getPageSize());
+		return Response.ok(Map.of("pagesCount", pagesCount)).build();
 	}
 }
