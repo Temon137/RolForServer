@@ -17,7 +17,6 @@ public class MessageRepoImpl extends AbstractRepo<Message, MessageImpl> implemen
 	
 	@Override
 	protected MessageImpl copy(Message from, MessageImpl to) {
-		to.setId(from.getId());
 		to.setText(from.getText());
 		to.setDate(from.getDate());
 		return to;

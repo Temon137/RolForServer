@@ -17,7 +17,6 @@ public class UserRepoImpl extends AbstractRepo<User, UserImpl> implements UserRe
 	
 	@Override
 	protected UserImpl copy(User from, UserImpl to) {
-		to.setId(from.getId());
 		to.setAvatarImageName(from.getAvatarImageName());
 		to.setDescription(from.getDescription());
 		to.setLogin(from.getLogin());

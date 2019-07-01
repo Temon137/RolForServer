@@ -14,7 +14,7 @@ public interface Repo<T extends Entity> {
 	
 	T add(T item);
 	
-	T save(T item);
+	T save(Integer id, T item);
 	
 	List<? extends T> findAll();
 	

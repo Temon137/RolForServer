@@ -17,7 +17,6 @@ public class NewsRepoImpl extends AbstractRepo<News, NewsImpl> implements NewsRe
 	
 	@Override
 	protected NewsImpl copy(News from, NewsImpl to) {
-		to.setId(from.getId());
 		to.setAuthorId(from.getAuthorId());
 		to.setDate(from.getDate());
 		to.setTitle(from.getTitle());

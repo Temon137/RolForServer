@@ -17,7 +17,6 @@ public class ContainerRepoImpl extends AbstractRepo<Container, ContainerImpl> im
 	
 	@Override
 	protected ContainerImpl copy(Container from, ContainerImpl to) {
-		to.setId(from.getId());
 		to.setParentId(from.getParentId());
 		to.setTitle(from.getTitle());
 		to.setAuthorId(from.getAuthorId());

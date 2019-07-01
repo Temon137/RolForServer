@@ -6,7 +6,6 @@ import rolfor.model.Repo;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 
 public class AbstractREST<E extends Entity, R extends Repo<E>> {
@@ -17,10 +16,35 @@ public class AbstractREST<E extends Entity, R extends Repo<E>> {
 	}
 	
 	@GET
+	@Produces("application/json")
+	public Response getAll() {
+		var all = repo.findAll();
+		return Response.ok(all).build();
+	}
+	
+	@GET
 	@Path(value = "/{id}")
 	@Produces("application/json")
-	public E get(@PathParam(value = "id") Integer id) {
-		return repo.find(id);
+	public Response get(@PathParam(value = "id") Integer id) {
+		E entity = repo.find(id);
+		return Response.ok(entity).build();
+	}
+	
+	@POST
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response create(E entity) {
+		E newEntity = repo.add(entity);
+		return Response.ok(newEntity).status(201).build();
+	}
+	
+	@PUT
+	@Path(value = "/{id}")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response update(@PathParam(value = "id") Integer id, E entity) {
+		E updatedEntity = repo.save(id, entity);
+		return Response.ok(updatedEntity).status(201).build();
 	}
 	
 	@DELETE
@@ -28,26 +52,6 @@ public class AbstractREST<E extends Entity, R extends Repo<E>> {
 	@Produces("application/json")
 	public Response delete(@PathParam(value = "id") Integer id) {
 		repo.remove(repo.find(id));
-		return Response.status(201).build();
-	}
-	
-	@POST
-	@Consumes("application/json")
-	@Produces("application/json")
-	public E update(E entity) {
-		return repo.save(entity);
-	}
-	
-	@PUT
-	@Consumes("application/json")
-	@Produces("application/json")
-	public E create(E entity) {
-		return repo.add(entity);
-	}
-	
-	@GET
-	@Produces("application/json")
-	public List<? extends E> getAll() {
-		return repo.findAll();
+		return Response.ok().build();
 	}
 }

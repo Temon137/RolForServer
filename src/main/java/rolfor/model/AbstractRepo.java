@@ -42,15 +42,15 @@ public abstract class AbstractRepo<T extends Entity, R extends T> implements Rep
 	}
 	
 	@Override
-	public T save(T item) {
+	public T save(Integer id, T item) {
 		EntityTransaction transaction = em.getTransaction();
 		transaction.begin();
-		R entity = em.find(getEntityClass(), item.getId());
+		R entity = em.find(getEntityClass(), id);
 		copy(item, entity);
 		em.persist(entity);
 		em.flush();
 		transaction.commit();
-		return item;
+		return entity;
 	}
 	
 	@Override
