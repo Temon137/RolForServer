@@ -9,7 +9,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "messages")
 public class MessageImpl implements Message {
-	private int       id;
+	private Integer   id;
+	private Integer   containerId;
+	private Integer   authorId;
 	private Timestamp date;
 	private String    text;
 	
@@ -20,15 +22,21 @@ public class MessageImpl implements Message {
 		return id;
 	}
 	
-	@Override
-	@Basic
+	@Column(name = "container_id")
+	public Integer getContainerId() {
+		return containerId;
+	}
+	
+	@Column(name = "user_id")
+	public Integer getAuthorId() {
+		return authorId;
+	}
+	
 	@Column(name = "date")
 	public Timestamp getDate() {
 		return date;
 	}
 	
-	@Override
-	@Basic
 	@Column(name = "text")
 	public String getText() {
 		return text;
@@ -36,6 +44,14 @@ public class MessageImpl implements Message {
 	
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public void setContainerId(Integer containerId) {
+		this.containerId = containerId;
+	}
+	
+	public void setAuthorId(Integer authorId) {
+		this.authorId = authorId;
 	}
 	
 	public void setDate(Timestamp date) {
@@ -54,7 +70,7 @@ public class MessageImpl implements Message {
 		
 		MessageImpl message = (MessageImpl) o;
 		
-		if (id != message.id) return false;
+		if (!id.equals(message.id)) return false;
 		if (!Objects.equals(date, message.date)) return false;
 		if (!Objects.equals(text, message.text)) return false;
 		
