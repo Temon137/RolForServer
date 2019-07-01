@@ -3,7 +3,12 @@ package rolfor.model.container;
 
 import rolfor.model.AbstractRepo;
 
+import javax.ejb.Local;
+import javax.ejb.Stateless;
 
+
+@Local(ContainerRepo.class)
+@Stateless(name = "ContainerRepoImpl")
 public class ContainerRepoImpl extends AbstractRepo<Container, ContainerImpl> implements ContainerRepo {
 	@Override
 	public Class<ContainerImpl> getEntityClass() {

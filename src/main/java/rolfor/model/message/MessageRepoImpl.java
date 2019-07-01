@@ -3,7 +3,12 @@ package rolfor.model.message;
 
 import rolfor.model.AbstractRepo;
 
+import javax.ejb.Local;
+import javax.ejb.Stateless;
 
+
+@Local(MessageRepo.class)
+@Stateless(name = "MessageRepoImpl")
 public class MessageRepoImpl extends AbstractRepo<Message, MessageImpl> implements MessageRepo {
 	@Override
 	public Class<MessageImpl> getEntityClass() {

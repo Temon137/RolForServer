@@ -4,10 +4,10 @@ package rolfor.rest.containers;
 import rolfor.model.container.Container;
 import rolfor.model.container.ContainerImpl;
 import rolfor.model.container.ContainerRepo;
-import rolfor.model.container.ContainerRepoImpl;
 import rolfor.rest.containers.fetchers.ChildContainersFetcher;
 import rolfor.rest.containers.fetchers.MessagesFromContainerFetcher;
 
+import javax.ejb.EJB;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -15,10 +15,11 @@ import java.util.List;
 
 @Path(value = "/containers")
 public class ContainersREST {
-	private final ContainerRepo containerRepo;
+	@EJB
+	private ContainerRepo containerRepo;
 	
 	public ContainersREST() {
-		containerRepo = new ContainerRepoImpl();
+//		containerRepo = new ContainerRepoImpl();
 	}
 	
 	@GET
