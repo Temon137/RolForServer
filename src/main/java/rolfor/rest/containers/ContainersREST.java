@@ -4,10 +4,12 @@ package rolfor.rest.containers;
 import rolfor.model.container.Container;
 import rolfor.model.container.ContainerImpl;
 import rolfor.model.container.ContainerRepo;
+import rolfor.rest.PaginationParams;
 import rolfor.rest.containers.fetchers.ChildContainersFetcher;
 import rolfor.rest.containers.fetchers.MessagesFromContainerFetcher;
 
 import javax.ejb.EJB;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -50,29 +52,31 @@ public class ContainersREST {
 		return containerRepo.add(container);
 	}
 	
+	
 	@GET
 	@Path(value = "/{parentId}/children/")
 	@Produces("application/json")
 	public List<? extends Container> getChildrenContainers(@PathParam(value = "parentId") Integer parentId) {
-		return getChildrenContainersPage(parentId, 1);
+		return getChildrenContainersPage(parentId, new PaginationParams());
 	}
 	
 	@GET
-	@Path(value = "/{parentId}/children/page{pageNumber}")
+	@Path(value = "/{parentId}/children/")
 	@Produces("application/json")
 	public List<? extends Container> getChildrenContainersPage(@PathParam(value = "parentId") Integer parentId,
-	                                                           @PathParam(value = "pageNumber") Integer pageNumber) {
+	                                                           @Valid @BeanParam PaginationParams pageParams) {
 		return containerRepo.findFromPage(new ChildContainersFetcher(containerRepo, parentId).getCriteriaQuery(),
-		                                  pageNumber,
-		                                  5);
+		                                  pageParams.getPageNumber(),
+		                                  pageParams.getPageSize());
 	}
 	
 	@GET
 	@Path(value = "/{parentId}/children/pages")
 	@Produces("application/json")
-	public Long getChildrenContainersPagesCount(@PathParam(value = "parentId") Integer parentId) {
+	public Long getChildrenContainersPagesCount(@PathParam(value = "parentId") Integer parentId,
+	                                            @Valid @BeanParam PaginationParams pageParams) {
 		ChildContainersFetcher fetcher = new ChildContainersFetcher(containerRepo, parentId);
-		return containerRepo.getPagesCount(fetcher.getCriteriaQuery(), 5);
+		return containerRepo.getPagesCount(fetcher.getCriteriaQuery(), pageParams.getPageSize());
 	}
 	
 	@GET
