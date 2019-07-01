@@ -101,8 +101,8 @@ public class UserImpl implements User {
 		
 		UserImpl user = (UserImpl) o;
 		
-		if (id != user.id) return false;
-		if (role != user.role) return false;
+		if (!id.equals(user.id)) return false;
+		if (!role.equals(user.role)) return false;
 		if (!Objects.equals(description, user.description)) return false;
 		if (!Objects.equals(avatarImageName, user.avatarImageName)) {
 			return false;

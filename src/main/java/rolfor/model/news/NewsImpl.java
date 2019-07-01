@@ -78,8 +78,8 @@ public class NewsImpl implements News {
 		
 		NewsImpl news = (NewsImpl) o;
 		
-		if (id != news.id) return false;
-		if (authorId != news.authorId) return false;
+		if (!id.equals(news.id)) return false;
+		if (!authorId.equals(news.authorId)) return false;
 		if (!Objects.equals(title, news.title)) return false;
 		if (!Objects.equals(date, news.date)) return false;
 		if (!Objects.equals(text, news.text)) return false;

@@ -19,7 +19,6 @@ public class ContainersREST {
 	private ContainerRepo containerRepo;
 	
 	public ContainersREST() {
-//		containerRepo = new ContainerRepoImpl();
 	}
 	
 	@GET

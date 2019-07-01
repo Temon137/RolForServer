@@ -33,35 +33,6 @@ public class ContainerImpl extends AbstractEntity implements Container {
 		this.description = description;
 	}
 	
-	@SuppressWarnings("RedundantIfStatement")
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		
-		ContainerImpl that = (ContainerImpl) o;
-		
-		if (!id.equals(that.id)) return false;
-		if (!authorId.equals(that.authorId)) return false;
-		if (!Objects.equals(parentId, that.parentId)) return false;
-		if (!Objects.equals(title, that.title)) return false;
-		if (!Objects.equals(imageName, that.imageName)) return false;
-		if (!Objects.equals(description, that.description)) return false;
-		
-		return true;
-	}
-	
-	@Override
-	public int hashCode() {
-		int result = id;
-		result = 31 * result + (parentId != null ? parentId.hashCode() : 0);
-		result = 31 * result + (title != null ? title.hashCode() : 0);
-		result = 31 * result + authorId;
-		result = 31 * result + (imageName != null ? imageName.hashCode() : 0);
-		result = 31 * result + (description != null ? description.hashCode() : 0);
-		return result;
-	}
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -121,5 +92,34 @@ public class ContainerImpl extends AbstractEntity implements Container {
 	
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	@SuppressWarnings("RedundantIfStatement")
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		
+		ContainerImpl that = (ContainerImpl) o;
+		
+		if (!id.equals(that.id)) return false;
+		if (!authorId.equals(that.authorId)) return false;
+		if (!Objects.equals(parentId, that.parentId)) return false;
+		if (!Objects.equals(title, that.title)) return false;
+		if (!Objects.equals(imageName, that.imageName)) return false;
+		if (!Objects.equals(description, that.description)) return false;
+		
+		return true;
+	}
+	
+	@Override
+	public int hashCode() {
+		int result = id;
+		result = 31 * result + (parentId != null ? parentId.hashCode() : 0);
+		result = 31 * result + (title != null ? title.hashCode() : 0);
+		result = 31 * result + authorId;
+		result = 31 * result + (imageName != null ? imageName.hashCode() : 0);
+		result = 31 * result + (description != null ? description.hashCode() : 0);
+		return result;
 	}
 }
