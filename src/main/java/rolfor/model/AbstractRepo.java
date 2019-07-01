@@ -70,11 +70,11 @@ public abstract class AbstractRepo<T extends Entity, R extends T> implements Rep
 	}
 	
 	@Override
-	public List<? extends T> findFromPage(CriteriaQuery<? extends T> query, int pageNumber, int pageSize) {
+	public TypedQuery<? extends T> getPagedQuery(CriteriaQuery<? extends T> query, int pageNumber, int pageSize) {
 		TypedQuery<? extends T> typedQuery = em.createQuery(query);
 		typedQuery.setFirstResult((pageNumber - 1) * pageSize);
 		typedQuery.setMaxResults(pageSize);
-		return typedQuery.getResultList();
+		return typedQuery;
 	}
 	
 	@Override
@@ -88,11 +88,11 @@ public abstract class AbstractRepo<T extends Entity, R extends T> implements Rep
 	}
 	
 	@Override
-	public <E extends Entity> Long getPagesCount(CriteriaQuery<E> query, int pageSize) {
+	public Long getPagesCount(CriteriaQuery<? extends T> query, int pageSize) {
 		em.createQuery(query); // I hate this shit
 		
 		final CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
-		final Root<E>             countRoot  = countQuery.from(query.getResultType());
+		final Root<? extends Entity>             countRoot  = countQuery.from(query.getResultType());
 		
 		countQuery.select(cb.count(countRoot));
 		countQuery.where(query.getRestriction());

@@ -65,9 +65,9 @@ public class ContainersREST {
 	@Produces("application/json")
 	public List<? extends Container> getChildrenContainersPage(@PathParam(value = "parentId") Integer parentId,
 	                                                           @Valid @BeanParam PaginationParams pageParams) {
-		return containerRepo.findFromPage(new ChildContainersFetcher(containerRepo, parentId).getCriteriaQuery(),
-		                                  pageParams.getPageNumber(),
-		                                  pageParams.getPageSize());
+		return containerRepo.getPagedQuery(new ChildContainersFetcher(containerRepo, parentId).getCriteriaQuery(),
+		                                   pageParams.getPageNumber(),
+		                                   pageParams.getPageSize()).getResultList();
 	}
 	
 	@GET

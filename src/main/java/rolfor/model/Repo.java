@@ -21,11 +21,11 @@ public interface Repo<T extends Entity> {
 	<R> TypedQuery<R> getQuery(CriteriaQuery<R> query);
 	
 	
-	<R extends Entity> Long getPagesCount(CriteriaQuery<R> query, int pageSize);
-	
 	CriteriaQuery<? extends T> getSelectQuery();
 	
-	List<? extends T> findFromPage(CriteriaQuery<? extends T> query, int pageNumber, int pageSize);
+	TypedQuery<? extends T> getPagedQuery(CriteriaQuery<? extends T> query, int pageNumber, int pageSize);
+	
+	Long getPagesCount(CriteriaQuery<? extends T> query, int pageSize);
 	
 	
 	Class<? extends T> getEntityClass();
