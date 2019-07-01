@@ -2,56 +2,29 @@ package rolfor.rest.containers;
 
 
 import rolfor.model.container.Container;
-import rolfor.model.container.ContainerImpl;
 import rolfor.model.container.ContainerRepo;
+import rolfor.rest.AbstractREST;
 import rolfor.rest.PaginationParams;
 import rolfor.rest.containers.fetchers.ChildContainersFetcher;
 import rolfor.rest.containers.fetchers.MessagesFromContainerFetcher;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
 import java.util.List;
 
 
 @Path(value = "/containers")
-public class ContainersREST {
-	@EJB
-	private ContainerRepo containerRepo;
-	
+public class ContainersREST extends AbstractREST<Container, ContainerRepo> {
+	@SuppressWarnings("unused")
 	public ContainersREST() {
+		super(null);
 	}
 	
-	@GET
-	@Path(value = "/{id}")
-	@Produces("application/json")
-	public Container getContainer(@PathParam(value = "id") Integer id) {
-		return containerRepo.find(id);
+	@Inject
+	public ContainersREST(ContainerRepo containerRepo) {
+		super(containerRepo);
 	}
-	
-	@DELETE
-	@Path(value = "/{id}")
-	@Produces("application/json")
-	public Response deleteContainer(@PathParam(value = "id") Integer id) {
-		containerRepo.remove(containerRepo.find(id));
-		return Response.status(201).build();
-	}
-	
-	@POST
-	@Consumes("application/json")
-	@Produces("application/json")
-	public Container updateContainer(ContainerImpl container) {
-		return containerRepo.save(container);
-	}
-	
-	@PUT
-	@Consumes("application/json")
-	@Produces("application/json")
-	public Container createContainer(ContainerImpl container) {
-		return containerRepo.add(container);
-	}
-	
 	
 	@GET
 	@Path(value = "/{parentId}/children/")
@@ -65,9 +38,9 @@ public class ContainersREST {
 	@Produces("application/json")
 	public List<? extends Container> getChildrenContainersPage(@PathParam(value = "parentId") Integer parentId,
 	                                                           @Valid @BeanParam PaginationParams pageParams) {
-		return containerRepo.getPagedQuery(new ChildContainersFetcher(containerRepo, parentId).getCriteriaQuery(),
-		                                   pageParams.getPageNumber(),
-		                                   pageParams.getPageSize()).getResultList();
+		return repo.getPagedQuery(new ChildContainersFetcher(repo, parentId).getCriteriaQuery(),
+		                          pageParams.getPageNumber(),
+		                          pageParams.getPageSize()).getResultList();
 	}
 	
 	@GET
@@ -75,21 +48,15 @@ public class ContainersREST {
 	@Produces("application/json")
 	public Long getChildrenContainersPagesCount(@PathParam(value = "parentId") Integer parentId,
 	                                            @Valid @BeanParam PaginationParams pageParams) {
-		ChildContainersFetcher fetcher = new ChildContainersFetcher(containerRepo, parentId);
-		return containerRepo.getPagesCount(fetcher.getCriteriaQuery(), pageParams.getPageSize());
+		ChildContainersFetcher fetcher = new ChildContainersFetcher(repo, parentId);
+		return repo.getPagesCount(fetcher.getCriteriaQuery(), pageParams.getPageSize());
 	}
 	
 	@GET
 	@Path(value = "/{parentId}/test2")
 	@Produces("application/json")
 	public Integer test(@PathParam(value = "parentId") Integer parentId) {
-		MessagesFromContainerFetcher fetcher = new MessagesFromContainerFetcher(containerRepo, parentId);
-		return containerRepo.getQuery(fetcher.getCriteriaQuery()).getSingleResult();
-	}
-	
-	@GET
-	@Produces("application/json")
-	public List<? extends Container> getAllContainers() {
-		return containerRepo.findAll();
+		MessagesFromContainerFetcher fetcher = new MessagesFromContainerFetcher(repo, parentId);
+		return repo.getQuery(fetcher.getCriteriaQuery()).getSingleResult();
 	}
 }
