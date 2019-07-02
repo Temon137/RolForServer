@@ -16,6 +16,6 @@ public abstract class AbstractFetcher<T, E extends Entity> implements Fetcher<T>
 	
 	@Override
 	public TypedQuery<? extends T> getTypedQuery() {
-		return repo.getQuery(getCriteriaQuery());
+		return repo.buildQuery(getCriteriaQuery());
 	}
 }

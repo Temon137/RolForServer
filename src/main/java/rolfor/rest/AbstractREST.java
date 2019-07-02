@@ -4,8 +4,10 @@ package rolfor.rest;
 import rolfor.model.Entity;
 import rolfor.model.Repo;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.util.Map;
 
 
 public class AbstractREST<E extends Entity, R extends Repo<E>> {
@@ -18,8 +20,28 @@ public class AbstractREST<E extends Entity, R extends Repo<E>> {
 	@GET
 	@Produces("application/json")
 	public Response getAll() {
-		var all = repo.findAll();
+		var allQuery = repo.getAllQuery();
+		var all = repo.buildQuery(allQuery).getResultList();
 		return Response.ok(all).build();
+	}
+	
+	@GET
+	@Path(value = "/paged")
+	@Produces("application/json")
+	public Response getAllPaged(@Valid @BeanParam PaginationParams pageParams) {
+		var allQuery   = repo.getAllQuery();
+		var pagedQuery = repo.getPagedQuery(allQuery, pageParams.getPageNumber(), pageParams.getPageSize());
+		var allPage    = pagedQuery.getResultList();
+		return Response.ok(allPage).build();
+	}
+	
+	@GET
+	@Path(value = "/paged/count")
+	@Produces("application/json")
+	public Response getAllPagesCount(@Valid @BeanParam PaginationParams pageParams) {
+		var allQuery   = repo.getAllQuery();
+		var pagesCount = repo.getPagesCount(allQuery, pageParams.getPageSize());
+		return Response.ok(Map.of("pagesCount", pagesCount)).build();
 	}
 	
 	@GET

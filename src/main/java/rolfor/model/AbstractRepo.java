@@ -9,7 +9,6 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.List;
 
 
 @SuppressWarnings("WeakerAccess")
@@ -54,16 +53,14 @@ public abstract class AbstractRepo<T extends Entity, R extends T> implements Rep
 	}
 	
 	@Override
-	public List<? extends T> findAll() {
+	public CriteriaQuery<R> getAllQuery() {
 		CriteriaQuery<R> cq        = cb.createQuery(getEntityClass());
 		Root<R>          rootEntry = cq.from(getEntityClass());
-		CriteriaQuery<R> all       = cq.select(rootEntry).orderBy(cb.asc(rootEntry.get("id")));
-		TypedQuery<R>    allQuery  = em.createQuery(all);
-		return allQuery.getResultList();
+		return cq.select(rootEntry).orderBy(cb.asc(rootEntry.get("id")));
 	}
 	
 	@Override
-	public <E> TypedQuery<E> getQuery(CriteriaQuery<E> query) {
+	public <E> TypedQuery<E> buildQuery(CriteriaQuery<E> query) {
 		return em.createQuery(query);
 	}
 	

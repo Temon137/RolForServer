@@ -31,7 +31,7 @@ public class ContainersREST extends AbstractREST<Container, ContainerRepo> {
 	@Path(value = "/{id}/children/")
 	@Produces("application/json")
 	public Response getChildren(@PathParam(value = "id") Integer id) {
-		var list = repo.getQuery(new ChildContainersFetcher(repo, id).getCriteriaQuery()).getResultList();
+		var list = repo.buildQuery(new ChildContainersFetcher(repo, id).getCriteriaQuery()).getResultList();
 		return Response.ok(list).build();
 	}
 	
