@@ -22,8 +22,8 @@ public class ContainersREST extends AbstractREST<Container, ContainerRepo> {
 	}
 	
 	@Inject
-	public ContainersREST(ContainerRepo containerRepo) {
-		super(containerRepo);
+	public ContainersREST(ContainerRepo repo) {
+		super(repo);
 	}
 	
 	
