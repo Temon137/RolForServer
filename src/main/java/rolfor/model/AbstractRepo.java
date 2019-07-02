@@ -88,7 +88,9 @@ public abstract class AbstractRepo<T extends Entity, R extends T> implements Rep
 		final Root<? extends Entity> countRoot  = countQuery.from(query.getResultType());
 		
 		countQuery.select(cb.count(countRoot));
-		countQuery.where(query.getRestriction());
+		if (query.getRestriction() != null) {
+			countQuery.where(query.getRestriction());
+		}
 		countRoot.alias(query.getRoots().iterator().next().getAlias());
 		
 		CriteriaQuery<Long> resultQuery = countQuery.distinct(query.isDistinct());
