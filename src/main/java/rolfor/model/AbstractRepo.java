@@ -112,5 +112,5 @@ public abstract class AbstractRepo<T extends Entity, M extends T, R extends M> i
 		return cb;
 	}
 	
-	protected abstract M copy(T from, M to);
+	protected abstract void copy(T from, M to);
 }

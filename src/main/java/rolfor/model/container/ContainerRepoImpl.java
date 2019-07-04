@@ -16,13 +16,12 @@ public class ContainerRepoImpl extends AbstractRepo<Container, MutableContainer,
 	}
 	
 	@Override
-	protected MutableContainer copy(Container from, MutableContainer to) {
+	protected void copy(Container from, MutableContainer to) {
 		to.setParentId(from.getParentId());
 		to.setTitle(from.getTitle());
 		to.setAuthorId(from.getAuthorId());
 		to.setImageName(from.getImageName());
 		to.setDescription(from.getDescription());
-		return to;
 	}
 }
 
