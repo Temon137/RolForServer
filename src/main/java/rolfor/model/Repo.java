@@ -7,9 +7,9 @@ import javax.persistence.criteria.CriteriaQuery;
 
 
 public interface Repo<T extends Entity, M extends T> {
-	T find(int id);
+	T find(Integer id);
 	
-	M findMutable(int id);
+	M findMutable(Integer id);
 	
 	void remove(T item);
 	

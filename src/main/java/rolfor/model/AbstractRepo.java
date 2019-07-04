@@ -17,12 +17,12 @@ public abstract class AbstractRepo<T extends Entity, M extends T, R extends M> i
 	protected final CriteriaBuilder cb = em.getCriteriaBuilder();
 	
 	@Override
-	public R find(int id) {
+	public R find(Integer id) {
 		return em.find(getEntityClass(), id);
 	}
 	
 	@Override
-	public M findMutable(int id) {
+	public M findMutable(Integer id) {
 		return find(id);
 	}
 	
