@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-public class UserImpl implements User {
+public class UserImpl implements MutableUser {
 	private Integer id;
 	private String  description;
 	private String  avatarImageName;

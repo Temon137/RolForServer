@@ -4,11 +4,12 @@ package rolfor.model;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import java.util.List;
 
 
-public interface Repo<T extends Entity> {
+public interface Repo<T extends Entity, M extends T> {
 	T find(int id);
+	
+	M findMutable(int id);
 	
 	void remove(T item);
 	

@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "containers")
-public class ContainerImpl extends AbstractEntity implements Container {
+public class ContainerImpl extends AbstractEntity implements MutableContainer {
 	private Integer parentId;
 	private String  title;
 	private Integer authorId;

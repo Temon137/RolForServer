@@ -12,13 +12,18 @@ import javax.persistence.criteria.Root;
 
 
 @SuppressWarnings("WeakerAccess")
-public abstract class AbstractRepo<T extends Entity, R extends T> implements Repo<T> {
+public abstract class AbstractRepo<T extends Entity, M extends T, R extends M> implements Repo<T, M> {
 	protected final EntityManager   em = HibernateUtil.getSessionFactory().createEntityManager();
 	protected final CriteriaBuilder cb = em.getCriteriaBuilder();
 	
 	@Override
-	public T find(int id) {
+	public R find(int id) {
 		return em.find(getEntityClass(), id);
+	}
+	
+	@Override
+	public M findMutable(int id) {
+		return find(id);
 	}
 	
 	@Override
@@ -107,5 +112,5 @@ public abstract class AbstractRepo<T extends Entity, R extends T> implements Rep
 		return cb;
 	}
 	
-	protected abstract R copy(T from, R to);
+	protected abstract M copy(T from, M to);
 }

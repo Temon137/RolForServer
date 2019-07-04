@@ -8,7 +8,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "news")
-public class NewsImpl implements News {
+public class NewsImpl implements MutableNews {
 	private Integer   id;
 	private String    title;
 	private Timestamp date;

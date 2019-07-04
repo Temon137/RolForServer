@@ -9,16 +9,18 @@ import javax.ejb.Stateless;
 
 @Local(MessageRepo.class)
 @Stateless(name = "MessageRepoImpl")
-public class MessageRepoImpl extends AbstractRepo<Message, MessageImpl> implements MessageRepo {
+public class MessageRepoImpl extends AbstractRepo<Message, MutableMessage, MessageImpl> implements MessageRepo {
 	@Override
 	public Class<MessageImpl> getEntityClass() {
 		return MessageImpl.class;
 	}
 	
 	@Override
-	protected MessageImpl copy(Message from, MessageImpl to) {
-		to.setText(from.getText());
+	protected MutableMessage copy(Message from, MutableMessage to) {
+		to.setContainerId(from.getContainerId());
+		to.setAuthorId(from.getAuthorId());
 		to.setDate(from.getDate());
+		to.setText(from.getText());
 		return to;
 	}
 }

@@ -9,14 +9,14 @@ import javax.ejb.Stateless;
 
 @Local(NewsRepo.class)
 @Stateless(name = "NewsRepoImpl")
-public class NewsRepoImpl extends AbstractRepo<News, NewsImpl> implements NewsRepo {
+public class NewsRepoImpl extends AbstractRepo<News, MutableNews, NewsImpl> implements NewsRepo {
 	@Override
 	public Class<NewsImpl> getEntityClass() {
 		return NewsImpl.class;
 	}
 	
 	@Override
-	protected NewsImpl copy(News from, NewsImpl to) {
+	protected MutableNews copy(News from, MutableNews to) {
 		to.setAuthorId(from.getAuthorId());
 		to.setDate(from.getDate());
 		to.setTitle(from.getTitle());

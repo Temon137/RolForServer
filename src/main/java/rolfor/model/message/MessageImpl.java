@@ -8,7 +8,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "messages")
-public class MessageImpl implements Message {
+public class MessageImpl implements MutableMessage {
 	private Integer   id;
 	private Integer   containerId;
 	private Integer   authorId;

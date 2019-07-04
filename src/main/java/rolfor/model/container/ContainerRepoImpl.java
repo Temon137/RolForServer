@@ -9,14 +9,14 @@ import javax.ejb.Stateless;
 
 @Local(ContainerRepo.class)
 @Stateless(name = "ContainerRepoImpl")
-public class ContainerRepoImpl extends AbstractRepo<Container, ContainerImpl> implements ContainerRepo {
+public class ContainerRepoImpl extends AbstractRepo<Container, MutableContainer, ContainerImpl> implements ContainerRepo {
 	@Override
 	public Class<ContainerImpl> getEntityClass() {
 		return ContainerImpl.class;
 	}
 	
 	@Override
-	protected ContainerImpl copy(Container from, ContainerImpl to) {
+	protected MutableContainer copy(Container from, MutableContainer to) {
 		to.setParentId(from.getParentId());
 		to.setTitle(from.getTitle());
 		to.setAuthorId(from.getAuthorId());

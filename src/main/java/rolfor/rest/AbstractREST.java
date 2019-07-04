@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 import java.util.Map;
 
 
-public class AbstractREST<E extends Entity, R extends Repo<E>> {
+public class AbstractREST<E extends Entity, R extends Repo<E, ?>> {
 	protected final R repo;
 	
 	public AbstractREST(R repo) {
