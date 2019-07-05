@@ -1,4 +1,4 @@
-package rolfor.rest.containers.fetchers;
+package rolfor.rest.containers.fetcher;
 
 
 import rolfor.model.AbstractFetcher;
