@@ -1,4 +1,4 @@
-package rolfor.ejb.container.fetcher;
+package rolfor.model.container.fetcher;
 
 
 import rolfor.model.AbstractFetcher;
