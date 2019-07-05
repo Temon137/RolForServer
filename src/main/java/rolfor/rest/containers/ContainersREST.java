@@ -1,11 +1,10 @@
 package rolfor.rest.containers;
 
 
+import rolfor.ejb.container.ContainerBean;
 import rolfor.model.container.Container;
-import rolfor.model.container.ContainerRepo;
 import rolfor.rest.AbstractREST;
 import rolfor.rest.PaginationParams;
-import rolfor.rest.containers.fetchers.ChildContainersFetcher;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -15,15 +14,15 @@ import java.util.Map;
 
 
 @Path(value = "/containers")
-public class ContainersREST extends AbstractREST<Container, ContainerRepo> {
+public class ContainersREST extends AbstractREST<Container, ContainerBean> {
 	@SuppressWarnings("unused")
 	public ContainersREST() {
 		super(null);
 	}
 	
 	@Inject
-	public ContainersREST(ContainerRepo repo) {
-		super(repo);
+	public ContainersREST(ContainerBean bean) {
+		super(bean);
 	}
 	
 	
@@ -31,7 +30,7 @@ public class ContainersREST extends AbstractREST<Container, ContainerRepo> {
 	@Path(value = "/{id}/children/")
 	@Produces("application/json")
 	public Response getChildren(@PathParam(value = "id") Integer id) {
-		var list = repo.buildQuery(new ChildContainersFetcher(repo, id).getCriteriaQuery()).getResultList();
+		var list = bean.getChildren(id);
 		return Response.ok(list).build();
 	}
 	
@@ -40,9 +39,7 @@ public class ContainersREST extends AbstractREST<Container, ContainerRepo> {
 	@Produces("application/json")
 	public Response getChildrenPaged(@PathParam(value = "id") Integer id,
 	                                 @Valid @BeanParam PaginationParams pageParams) {
-		var list = repo.getPagedQuery(new ChildContainersFetcher(repo, id).getCriteriaQuery(),
-		                              pageParams.getPageNumber(),
-		                              pageParams.getPageSize()).getResultList();
+		var list = bean.getChildrenPaged(id, pageParams);
 		return Response.ok(list).build();
 	}
 	
@@ -51,8 +48,7 @@ public class ContainersREST extends AbstractREST<Container, ContainerRepo> {
 	@Produces("application/json")
 	public Response getChildrenPagesCount(@PathParam(value = "id") Integer id,
 	                                      @Valid @BeanParam PaginationParams pageParams) {
-		var  fetcher    = new ChildContainersFetcher(repo, id);
-		Long pagesCount = repo.getPagesCount(fetcher.getCriteriaQuery(), pageParams.getPageSize());
+		Long pagesCount = bean.getChildrenPagesCount(id, pageParams);
 		return Response.ok(Map.of("pagesCount", pagesCount)).build();
 	}
 }

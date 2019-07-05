@@ -1,8 +1,8 @@
 package rolfor.rest;
 
 
+import rolfor.ejb.EntityBean;
 import rolfor.model.Entity;
-import rolfor.model.Repo;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -10,18 +10,17 @@ import javax.ws.rs.core.Response;
 import java.util.Map;
 
 
-public class AbstractREST<E extends Entity, R extends Repo<E, ?>> {
-	protected final R repo;
+public class AbstractREST<E extends Entity, B extends EntityBean<E>> {
+	protected final B bean;
 	
-	public AbstractREST(R repo) {
-		this.repo = repo;
+	public AbstractREST(B bean) {
+		this.bean = bean;
 	}
 	
 	@GET
 	@Produces("application/json")
 	public Response getAll() {
-		var allQuery = repo.getAllQuery();
-		var all = repo.buildQuery(allQuery).getResultList();
+		var all = bean.getAll();
 		return Response.ok(all).build();
 	}
 	
@@ -29,9 +28,7 @@ public class AbstractREST<E extends Entity, R extends Repo<E, ?>> {
 	@Path(value = "/paged")
 	@Produces("application/json")
 	public Response getAllPaged(@Valid @BeanParam PaginationParams pageParams) {
-		var allQuery   = repo.getAllQuery();
-		var pagedQuery = repo.getPagedQuery(allQuery, pageParams.getPageNumber(), pageParams.getPageSize());
-		var allPage    = pagedQuery.getResultList();
+		var allPage = bean.getAllPaged(pageParams);
 		return Response.ok(allPage).build();
 	}
 	
@@ -39,8 +36,7 @@ public class AbstractREST<E extends Entity, R extends Repo<E, ?>> {
 	@Path(value = "/paged/count")
 	@Produces("application/json")
 	public Response getAllPagesCount(@Valid @BeanParam PaginationParams pageParams) {
-		var allQuery   = repo.getAllQuery();
-		var pagesCount = repo.getPagesCount(allQuery, pageParams.getPageSize());
+		var pagesCount = bean.getAllPagesCount(pageParams);
 		return Response.ok(Map.of("pagesCount", pagesCount)).build();
 	}
 	
@@ -48,7 +44,7 @@ public class AbstractREST<E extends Entity, R extends Repo<E, ?>> {
 	@Path(value = "/{id}")
 	@Produces("application/json")
 	public Response get(@PathParam(value = "id") Integer id) {
-		E entity = repo.find(id);
+		E entity = bean.get(id);
 		return Response.ok(entity).build();
 	}
 	
@@ -56,7 +52,7 @@ public class AbstractREST<E extends Entity, R extends Repo<E, ?>> {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response create(E entity) {
-		E newEntity = repo.add(entity);
+		E newEntity = bean.create(entity);
 		return Response.ok(newEntity).status(201).build();
 	}
 	
@@ -65,7 +61,7 @@ public class AbstractREST<E extends Entity, R extends Repo<E, ?>> {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response update(@PathParam(value = "id") Integer id, E entity) {
-		E updatedEntity = repo.save(id, entity);
+		E updatedEntity = bean.update(id, entity);
 		return Response.ok(updatedEntity).status(201).build();
 	}
 	
@@ -73,7 +69,7 @@ public class AbstractREST<E extends Entity, R extends Repo<E, ?>> {
 	@Path(value = "/{id}")
 	@Produces("application/json")
 	public Response delete(@PathParam(value = "id") Integer id) {
-		repo.remove(repo.find(id));
+		bean.delete(id);
 		return Response.ok().build();
 	}
 }
