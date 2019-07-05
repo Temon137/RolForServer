@@ -16,6 +16,11 @@ public class NewsRepoImpl extends AbstractRepo<News, MutableNews, NewsImpl> impl
 	}
 	
 	@Override
+	public MutableNews createEmpty() {
+		return new NewsImpl();
+	}
+	
+	@Override
 	protected void copy(News from, MutableNews to) {
 		to.setAuthorId(from.getAuthorId());
 		to.setDate(from.getDate());

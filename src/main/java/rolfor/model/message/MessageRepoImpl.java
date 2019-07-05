@@ -16,6 +16,11 @@ public class MessageRepoImpl extends AbstractRepo<Message, MutableMessage, Messa
 	}
 	
 	@Override
+	public MutableMessage createEmpty() {
+		return new MessageImpl();
+	}
+	
+	@Override
 	protected void copy(Message from, MutableMessage to) {
 		to.setContainerId(from.getContainerId());
 		to.setAuthorId(from.getAuthorId());

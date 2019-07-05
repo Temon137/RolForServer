@@ -17,6 +17,8 @@ public interface Repo<T extends Entity, M extends T> {
 	
 	T save(Integer id, T item);
 	
+	M createEmpty();
+	
 	CriteriaQuery<? extends T> getAllQuery();
 	
 	<R> TypedQuery<R> buildQuery(CriteriaQuery<R> query);
