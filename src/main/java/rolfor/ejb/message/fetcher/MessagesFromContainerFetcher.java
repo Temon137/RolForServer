@@ -1,4 +1,4 @@
-package rolfor.rest.message.fetcher;
+package rolfor.ejb.message.fetcher;
 
 
 import rolfor.model.AbstractFetcher;
