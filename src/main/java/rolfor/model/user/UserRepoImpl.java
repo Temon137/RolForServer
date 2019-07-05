@@ -16,6 +16,11 @@ public class UserRepoImpl extends AbstractRepo<User, MutableUser, UserImpl> impl
 	}
 	
 	@Override
+	public MutableUser createEmpty() {
+		return new UserImpl();
+	}
+	
+	@Override
 	protected void copy(User from, MutableUser to) {
 		to.setAvatarImageName(from.getAvatarImageName());
 		to.setDescription(from.getDescription());
