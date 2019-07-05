@@ -1,4 +1,4 @@
-package rolfor.rest.messages;
+package rolfor.rest.message;
 
 
 import rolfor.ejb.message.MessageBean;

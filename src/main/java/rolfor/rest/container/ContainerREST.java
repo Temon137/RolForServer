@@ -1,4 +1,4 @@
-package rolfor.rest.containers;
+package rolfor.rest.container;
 
 
 import rolfor.ejb.container.ContainerBean;

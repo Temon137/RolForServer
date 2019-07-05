@@ -1,4 +1,4 @@
-package rolfor.rest.users;
+package rolfor.rest.user;
 
 
 import rolfor.ejb.user.UserBean;

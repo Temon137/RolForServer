@@ -5,7 +5,7 @@ import rolfor.ejb.AbstractEntityBean;
 import rolfor.model.message.Message;
 import rolfor.model.message.MessageRepo;
 import rolfor.rest.PaginationParams;
-import rolfor.rest.messages.fetcher.MessagesFromContainerFetcher;
+import rolfor.rest.message.fetcher.MessagesFromContainerFetcher;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
