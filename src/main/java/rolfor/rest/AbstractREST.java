@@ -53,7 +53,7 @@ public class AbstractREST<E extends Entity, B extends EntityBean<E>> {
 	@Produces("application/json")
 	public Response create(E entity) {
 		E newEntity = bean.create(entity);
-		return Response.ok(newEntity).status(201).build();
+		return Response.ok(newEntity).status(Response.Status.CREATED).build();
 	}
 	
 	@PUT
@@ -62,7 +62,7 @@ public class AbstractREST<E extends Entity, B extends EntityBean<E>> {
 	@Produces("application/json")
 	public Response update(@PathParam(value = "id") Integer id, E entity) {
 		E updatedEntity = bean.update(id, entity);
-		return Response.ok(updatedEntity).status(201).build();
+		return Response.ok(updatedEntity).status(Response.Status.CREATED).build();
 	}
 	
 	@DELETE
