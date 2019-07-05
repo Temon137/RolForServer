@@ -8,6 +8,7 @@ import org.hibernate.service.ServiceRegistry;
 import rolfor.model.container.ContainerImpl;
 import rolfor.model.message.MessageImpl;
 import rolfor.model.news.NewsImpl;
+import rolfor.model.token.TokenImpl;
 import rolfor.model.user.UserImpl;
 
 
@@ -36,6 +37,7 @@ public final class HibernateUtil {
 			configuration.addAnnotatedClass(MessageImpl.class);
 			configuration.addAnnotatedClass(NewsImpl.class);
 			configuration.addAnnotatedClass(UserImpl.class);
+			configuration.addAnnotatedClass(TokenImpl.class);
 			
 			ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 					.applySettings(configuration.getProperties()).build();
