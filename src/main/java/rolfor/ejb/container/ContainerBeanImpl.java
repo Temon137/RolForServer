@@ -5,7 +5,7 @@ import rolfor.ejb.AbstractEntityBean;
 import rolfor.model.container.Container;
 import rolfor.model.container.ContainerRepo;
 import rolfor.rest.PaginationParams;
-import rolfor.ejb.container.fetcher.ChildContainersFetcher;
+import rolfor.model.container.fetcher.ChildContainersFetcher;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
