@@ -14,14 +14,14 @@ import java.util.Map;
 
 
 @Path(value = "/containers")
-public class ContainersREST extends AbstractREST<Container, ContainerBean> {
+public class ContainerREST extends AbstractREST<Container, ContainerBean> {
 	@SuppressWarnings("unused")
-	public ContainersREST() {
+	public ContainerREST() {
 		super(null);
 	}
 	
 	@Inject
-	public ContainersREST(ContainerBean bean) {
+	public ContainerREST(ContainerBean bean) {
 		super(bean);
 	}
 	

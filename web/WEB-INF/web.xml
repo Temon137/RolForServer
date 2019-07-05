@@ -6,7 +6,7 @@
     <display-name>JAX-RS Web Application</display-name>
     <servlet>
         <servlet-name>contacts_resource</servlet-name>
-        <servlet-class>rolfor.rest.containers.ContainersREST</servlet-class>
+        <servlet-class>rolfor.rest.containers.ContainerREST</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 

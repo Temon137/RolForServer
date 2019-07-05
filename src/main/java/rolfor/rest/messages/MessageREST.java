@@ -16,14 +16,14 @@ import javax.ws.rs.core.Response;
 
 
 @Path(value = "/messages")
-public class MessagesREST extends AbstractREST<Message, MessageBean> {
+public class MessageREST extends AbstractREST<Message, MessageBean> {
 	@SuppressWarnings("unused")
-	public MessagesREST() {
+	public MessageREST() {
 		super(null);
 	}
 	
 	@Inject
-	public MessagesREST(MessageBean bean) {
+	public MessageREST(MessageBean bean) {
 		super(bean);
 	}
 	

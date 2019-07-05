@@ -10,14 +10,14 @@ import javax.ws.rs.Path;
 
 
 @Path(value = "/users")
-public class UsersREST extends AbstractREST<User, UserBean> {
+public class UserREST extends AbstractREST<User, UserBean> {
 	@SuppressWarnings("unused")
-	public UsersREST() {
+	public UserREST() {
 		super(null);
 	}
 	
 	@Inject
-	public UsersREST(UserBean bean) {
+	public UserREST(UserBean bean) {
 		super(bean);
 	}
 }
